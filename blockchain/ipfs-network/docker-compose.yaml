@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  node0:
+    build: .
+  node1:
+    build: .
+  node2:
+    build: .
+  node3:
+    build: .
+  node4:
+    build: .
+  node5:
+    build: .

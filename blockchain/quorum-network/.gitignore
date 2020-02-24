@@ -1,0 +1,12 @@
+
+# temp
+qdata
+
+# vagrant
+.vagrant
+*.log
+
+#intellij project files
+.idea
+
+*node_modules*
