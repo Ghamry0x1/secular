@@ -1,4 +1,4 @@
-pragma solidity ^0.5.8;
+pragma solidity ^0.6.1;
 import 'https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Roles.sol';
 
 contract RolesControl{
@@ -9,14 +9,30 @@ contract RolesControl{
     Roles.Role private modelCreater;
 
     struct MetaData{
-
+        string data;
     }
-    
+    function IsUserValid(string _Address,string _CID,string _metaDataCID,string _user,uint _startingRow,uint _endingRow,string _column) external {
+        for(uint i =0;i < providers.length ;i++){
+            if(providers[i].file.CID == _CID)
+                for(uint j = 0 ; j < providers[i].users.length ; j++){
+                    if(providers[i].users[j] == _user && providers[i].startingRow >= _startingRow && providers[i].endingRow <= _endingRow)
+                        for(uint k = 0;k<providers[i].columns.length;k++)
+                            if(providers[i].columns[k] == _column)
+                            return true;
+                }
+        }
+        return false;
+    }
+    function addDataProvider(
+      string _Address,string _CID,string _metaDataCID,string[] _users,uint _startingRow,uint _endingRow,string[] _columns) external {
+        providers.push(dataProvider(_Address,File(_CID,_metaDataCID,AccessControl(_users,_startingRow,_endingRow,_columns))));
+    }
+    dataProvider[] private providers;
+
     struct dataProvider{
 
     string addr;
     File file;
-
     }
 
     struct File{
@@ -76,4 +92,3 @@ contract RolesControl{
         _;
     }
 }
-
