@@ -31,12 +31,11 @@ contract RolesControl{
         }
         return false;
     }
-    function addDataProvider(string memory _Address) public {
+    function addDataProvider(string memory _Address,string memory _CID,string memory _metaDataCID,string[] memory _users,uint _startingRow,uint _endingRow,string[] memory _columns) public {
         
-        
+        providers.push(dataProvider(_Address,File(_CID,_metaDataCID,AccessControl(_users,_startingRow,_endingRow,_columns))));
     }
     
-    function addAccessControl() public{}
     // function DoNothing (string[] memory all)public{
     //     require(false,all);
     // }
