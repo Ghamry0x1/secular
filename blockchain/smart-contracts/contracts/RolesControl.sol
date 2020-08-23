@@ -1,18 +1,14 @@
 pragma solidity ^0.6.1;
 pragma experimental ABIEncoderV2; 
 
-//import 'https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Roles.sol';
-
 contract RolesControl{
 
-    // using Roles for Roles.Role;
-    // Roles.Role private admin;
-    // Roles.Role private dataProviders;
-    // Roles.Role private modelCreater;
 
     struct MetaData{
         string data;
     }
+    event dataProviderAdded(string);
+    event fileAdd(string);
     function IsUserValid (string memory _CID,string memory _user,uint _startingRow,uint _endingRow,string memory _column) public view returns(bool){
         for(uint i =0;i < providers.length ;i++){
                 if(keccak256(abi.encodePacked(providers[i].file.CID)) == keccak256(abi.encodePacked(_CID))){
@@ -31,13 +27,19 @@ contract RolesControl{
         }
         return false;
     }
-    function addDataProvider(string memory _Address,string memory _CID,string memory _metaDataCID,string[] memory _users,uint _startingRow,uint _endingRow,string[] memory _columns) public {
-        
-        providers.push(dataProvider(_Address,File(_CID,_metaDataCID,AccessControl(_users,_startingRow,_endingRow,_columns))));
+    function addFile(string memory _CID,string memory _metaDataCID,string[] memory _users,uint _startingRow,uint _endingRow,string[] memory _columns) public returns(File memory){
+        File memory f = File(_CID,_metaDataCID,AccessControl(_users,_startingRow,_endingRow,_columns));
+        emit dataProviderAdded("Created file successfully");
+        return f;
     }
-    
-    // function DoNothing (string[] memory all)public{
-    //     require(false,all);
+    function addDataProvider(string memory _Address,string memory _CID,string memory _metaDataCID,string[] memory _users,uint _startingRow,uint _endingRow,string[] memory _columns) public {
+        File memory _file = addFile(_CID,_metaDataCID,_users,_startingRow,_endingRow,_columns);
+        providers.push(dataProvider(_Address,_file));
+        emit dataProviderAdded("Added new data provider successfully");
+    }
+    // function test() public returns(string memory){
+    //     emit dataProviderAdded("hello there");
+    //     return "S7so S7soo7";
     // }
     dataProvider[] private providers;
 
@@ -62,46 +64,3 @@ contract RolesControl{
     
     }
 }
-    // constructor() public {
-    //     admin.add(msg.sender);
-    // }
-
-    // function addAdmin(address _newAdmin) external onlyAdmin() {
-    //     admin.add(_newAdmin);
-    // }
-
-    // function removeAdmin(address _admin) external onlyAdmin() {
-    //     admin.remove(_admin);
-    // }
-
-    // function addDataProvider(address _newDataProvider) external onlyAdmin() {
-    //     dataProviders.add(_newDataProvider);
-    // }
-
-    // function removeDataProvider(address _dataProvider) external onlyAdmin() {
-    //     dataProviders.remove(_dataProvider);
-    // }
-
-    // function addModelCreater(address _newModelCreater) external onlyAdmin() {
-    //     modelCreater.add(_newModelCreater);
-    // }
-
-    // function removeModelCreater(address _modelCreater) external onlyAdmin() {
-    //     modelCreater.remove(_modelCreater);
-    // }
-
-    // modifier onlyAdmin() {
-    //     require(admin.has(msg.sender),'not an ADMIN');
-    //     _;
-    // }
-
-    // modifier onlyDataProvider() {
-    //     require(dataProviders.has(msg.sender),'not a Data Provider');
-    //     _;
-    // }
-
-    // modifier onlyModelCreater() {
-    //     require(modelCreater.has(msg.sender),'not a Model Creater');
-    //     _;
-    // }
-//}
