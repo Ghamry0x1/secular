@@ -15,30 +15,28 @@ contract RolesControl{
     }
     function IsUserValid (string memory _CID,string memory _user,uint _startingRow,uint _endingRow,string memory _column) public view returns(bool){
         for(uint i =0;i < providers.length ;i++){
-            for(uint a = 0; a < providers[i].file.length;a++){
-                if(keccak256(abi.encodePacked(providers[i].file[a].CID)) == keccak256(abi.encodePacked(_CID)))
-                {
-                    uint x = providers[i].file[a].accessControl.users.length;
+                if(keccak256(abi.encodePacked(providers[i].file.CID)) == keccak256(abi.encodePacked(_CID))){
+                    uint x = providers[i].file.accessControl.users.length;
                     for(uint j = 0 ; j < x ; j++){
-                        if(keccak256(abi.encodePacked(providers[i].file[a].accessControl.users[j])) == keccak256(abi.encodePacked(_user)) && (providers[i].file[a].accessControl.startingRow <= _startingRow && providers[i].file[a].accessControl.endingRow >= _endingRow)){
-                            for(uint k = 0;k<providers[i].file[a].accessControl.columns.length;k++){
-                                if(keccak256(abi.encodePacked(providers[i].file[a].accessControl.columns[k])) == keccak256(abi.encodePacked(_column))){
+                        if(keccak256(abi.encodePacked(providers[i].file.accessControl.users[j])) == keccak256(abi.encodePacked(_user)) && (providers[i].file.accessControl.startingRow <= _startingRow && providers[i].file.accessControl.endingRow >= _endingRow)){
+                            for(uint k = 0;k<providers[i].file.accessControl.columns.length;k++){
+                                if(keccak256(abi.encodePacked(providers[i].file.accessControl.columns[k])) == keccak256(abi.encodePacked(_column))){
                                     return true;
                                 }
                             }
                         }
                     }
                 }
-            }
+            
         }
         return false;
     }
     function addDataProvider(string memory _Address) public {
         
-        providers.push(dataProvider(_Address,new File[](0))
+        
     }
     
-    function addAccessControl(){}
+    function addAccessControl() public{}
     // function DoNothing (string[] memory all)public{
     //     require(false,all);
     // }
@@ -47,7 +45,7 @@ contract RolesControl{
     struct dataProvider{
 
     string addr;
-    File[] file;
+    File file;
     }
 
     struct File{
