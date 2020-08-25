@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo -e "ezme\nezme" | sudo passwd
+echo -e "2901\n2901" | sudo passwd
 
 echo " "
 echo "####################################"
@@ -30,18 +30,12 @@ echo " "
 sudo apt-get install apt-transport-https ca-certificates curl software-properties-common -y
 
 echo " "
-echo "###########################"
-echo "####### Install NPM #######"
-echo "###########################"
-echo " "
-sudo apt-get install npm -y
-
-echo " "
 echo "##############################"
 echo "####### Install NodeJS #######"
 echo "##############################"
 echo " "
-sudo apt-get install nodejs -y
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y nodejs
 
 echo " "
 echo "###########################################"
