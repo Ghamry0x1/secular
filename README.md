@@ -18,8 +18,6 @@ Secular aims to provide a secure private platform where parties (i.e. OEMs) can 
 
 ![high-level-architecture](https://user-images.githubusercontent.com/25902120/91210695-e6bda200-e70d-11ea-8feb-35db0d8217d5.png)
 
-<br>
-
 # Getting Started
 
 ## Environment Setup
