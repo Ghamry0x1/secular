@@ -121,10 +121,36 @@ sudo tar -xvf ipfs-update_v1.5.2_linux-amd64.tar.gz
 sudo ./ipfs-update/install.sh
 ```
 
-### install ipfs-update
+### install ipfs latest
 
 ```
-install ipfs latest
+sudo /usr/local/bin/ipfs-update/ipfs-update install latest
+sudo nano /etc/systemd/system/ipfs.service
+```
+
+Add ipfs.service
+
+```
+[Unit]
+Description=IPFS Daemon
+After=syslog.target network.target remote-fs.target nss-lookup.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/ipfs daemon --enable-namesys-pubsub
+User=root
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Enable the service
+
+```
+sudo systemctl daemon-reload
+sudo systemctl enable ipfs
+sudo systemctl start ipfs
+sudo systemctl status ipfs
 ```
 
 # Build and Test
@@ -155,6 +181,12 @@ sudo truffle migrate --network development
   ipfs init
   ```
 
+- ### Check IPFS Node Config
+
+  ```
+  ipfs config show
+  ```
+
 - ### Remove Public Bootstrap Nodes
 
   ```
@@ -179,7 +211,8 @@ sudo truffle migrate --network development
   - #### Bring Nodes Online
 
     ```
-    ipfs daemon > ipfs.log &
+    systemctl restart ipfs
+    systemctl status ipfs
     ```
 
   - #### At Node 1
@@ -203,5 +236,6 @@ sudo truffle migrate --network development
 - ### Upload File From Node 1
 
   ```
-  echo "File from node 1, distributed on IPFS" > testFile.txt
+  echo "Distributed file on Private Network" > test.priv
+  ipfs add test.priv
   ```
