@@ -1,4 +1,4 @@
-var Simple = artifacts.require("./RolesControl.sol");
+var Simple = artifacts.require("./RBAC.sol");
 
 module.exports = function(deployer) {
     deployer.deploy(Simple);
