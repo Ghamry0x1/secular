@@ -37,10 +37,10 @@ contract RolesControl{
         providers.push(dataProvider(_Address,_file));
         emit dataProviderAdded("Added new data provider successfully");
     }
-    // function test() public returns(string memory){
-    //     emit dataProviderAdded("hello there");
-    //     return "S7so S7soo7";
-    // }
+    function test() public returns(string memory){
+        emit dataProviderAdded("hello there");
+        return "S7so S7soo7";
+    }
     dataProvider[] private providers;
 
     struct dataProvider{
