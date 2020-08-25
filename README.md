@@ -155,18 +155,6 @@ sudo systemctl status ipfs
 
 # Build and Test
 
-## Run Quorum Network
-
-```
-QUORUM_CONSENSUS=raft docker-compose up -d
-```
-
-## Migrate Smart Contracts to Quorum Network
-
-```
-sudo truffle migrate --network development
-```
-
 ## IPFS
 
 - ### Switch to root
@@ -239,3 +227,30 @@ sudo truffle migrate --network development
   echo "Distributed file on Private Network" > test.priv
   ipfs add test.priv
   ```
+
+## Quorum Network
+
+```
+sudo QUORUM_CONSENSUS=raft docker-compose up -d
+```
+
+## Compile and Migrate Smart Contracts to Quorum Network
+
+```
+sudo truffle compile --reset
+sudo truffle migrate --network development
+```
+
+## Invoke Smart Contract Functions
+
+```
+sudo truffle console --network development
+
+RBAC.at('0x9d13C6D3aFE1721BEef56B55D303B09E021E27ab').then(function(instance) {return instance.addDataProvider('0xcE69AFd3b1738B2faF87F713473E75B11d5933B1', 'QmThk5n3hLfY1GWiAXcj9VFJ37h8Bsx4xXXbwrKxHQddtY', 'QmeomffUNfmQy76CQGy9NdmqEnnHU9soCexBnGU3ezPHVH', ['0xb6F8625ee20e6Ed6313393C733859eb006DF86dc'], 100, 3000, ['Title', 'Model', 'Estimated Price', 'Available Colors', 'Release Date']);})
+
+RBAC.at('0x9d13C6D3aFE1721BEef56B55D303B09E021E27ab').then(function(instance) {return instance.isAuthorizedUser('QmThk5n3hLfY1GWiAXcj9VFJ37h8Bsx4xXXbwrKxHQddtY', '0xb6F8625ee20e6Ed6313393C733859eb006DF86dc', 1, 14, 'height');}) --> false
+
+RBAC.at('0x9d13C6D3aFE1721BEef56B55D303B09E021E27ab').then(function(instance) {return instance.isAuthorizedUser('QmThk5n3hLfY1GWiAXcj9VFJ37h8Bsx4xXXbwrKxHQddtY', '0xb6F8625ee20e6Ed6313393C733859eb006DF86dc', 200, 300, 'height');}) --> false
+
+RBAC.at('0x9d13C6D3aFE1721BEef56B55D303B09E021E27ab').then(function(instance) {return instance.isAuthorizedUser('QmThk5n3hLfY1GWiAXcj9VFJ37h8Bsx4xXXbwrKxHQddtY', '0xb6F8625ee20e6Ed6313393C733859eb006DF86dc', 200, 300, 'Title');}) -- > true
+```
